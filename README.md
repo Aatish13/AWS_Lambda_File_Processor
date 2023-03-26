@@ -1,5 +1,6 @@
 # AWS_Lambda_File_Processor
 
+# Installation 
 ## 1. Push Docker Image to ECR
     ### 1.1 Retrieve an authentication token and authenticate your Docker client to your registry.
 
@@ -22,9 +23,9 @@
   4. Make sure lambda processor acticture is same as the one your build your docker image like x86,arm
 ## 3. dynamoDB
   1. Create Table to store student data
-## 4. Make name as partition key 
+  2. Make name as partition key 
   1. Export student.json data to table
-## 5. S3
+## 4. S3
   1. Create two buckets one for input and another for output
 
 
