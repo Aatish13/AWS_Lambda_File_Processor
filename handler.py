@@ -1,7 +1,6 @@
 import boto3
 import face_recognition
 import pickle
-import boto3
 import os
 from boto3.dynamodb.conditions import Key
 import csv
@@ -51,6 +50,7 @@ def process_image():
             for i in range(len(results)):
                  if results[i]:
                       resultant_names.append(names[i])
+    
     return resultant_names
 
 # Function to search student name in dynamodb and get info
@@ -78,19 +78,16 @@ def face_recognition_handler(event, context):
 	if record.get("bucket") is None or record.get("bucket").get("name") != "cse546project2input":
 		print("Failed")
 		return
+
 	file_name = record['object']['key']
     
     # Process Video and store frames in /temp/ folder
 	process_video_object(file_name)
 
-    # For Debug 
-	# get_all_files("/home")
-	# print_temp_folder_contents()
-
-    # Process Image to get face data
+    # Process the Image, recognize the face and get the name of the student 
 	result = process_image()
-        
-    # Search Face data in dynamodb
+
+    # Retrive the student's details from dynamoDB
 	response = get_data_from_dynamodb(result)
 
     # Store response to output S3 bucket
