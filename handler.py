@@ -80,8 +80,11 @@ def face_recognition_handler(event, context):
 		return
 
 	file_name = record['object']['key']
-    
-    # Process Video and store frames in /temp/ folder
+        
+    # testing and debugging
+    # print_temp_folder_contents()
+
+    # Process Video and store frames in /tmp/ folder
 	process_video_object(file_name)
 
     # Process the Image, recognize the face and get the name of the student 
