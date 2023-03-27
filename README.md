@@ -1,5 +1,43 @@
 # AWS_Lambda_File_Processor
 
+## Authors
+#### Team -  Zeus
+- [@Aatish Chaudhari](https://github.com/Aatish13)
+- [@Priyal Desai](https://github.com/priyalrdesai99)
+- [@Verik Vekaria](https://github.com/verikv)
+
+
+## Each Member's Task
+
+Aatish Chaudhari
+- He was responsible for creating every resource (S3, Lambda, DynamoDB, IAM roles, IAM users, ECR Image) on AWS, configuring secure access to every resource, and troubleshooting issues related to access and control flow and threads.
+
+Priyal Desai
+- She contributed by writing an uploader.py script to upload a JSON file containing student information to DynamoDB, retrieving videos from an S3 bucket, virtually storing them in /tmp, and extracting four frames using ffmpeg and saving them as images in the same folder for later recognition.
+
+Verik Vekaria
+- By processing a video file in handler function, he contributed three functions that were used to recognize students' faces, retrieve their data from DynamoDB, and upload the data to an S3 bucket.
+
+## Admin User Credentials
+
+Link - https://450187694173.signin.aws.amazon.com/console
+
+## S3 Bucket Names
+
+Input Bucket - 'cse546project2input'
+output Bucket - 'cse546project2output'
+
+## Lambda Function Name
+
+lambda function - 'face_recognization'
+
+## DynamoDb Table Name
+
+Student Data - 'student'
+
+## Project Report - 'CSE_546_M3_Project_2_Report.pdf'
+
+
 # Installation 
 ## 1. Push Docker Image to ECR
     ### 1.1 Retrieve an authentication token and authenticate your Docker client to your registry.
