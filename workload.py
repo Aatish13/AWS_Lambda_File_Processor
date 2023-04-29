@@ -1,8 +1,8 @@
 from boto3 import client as boto3_client
 import os
 
-input_bucket = "cse546project2input"
-output_bucket = "cse546project2output"
+input_bucket = "cse546project3input"
+output_bucket = "cse546project3output"
 test_cases = "test_cases/"
 
 def clear_input_bucket():

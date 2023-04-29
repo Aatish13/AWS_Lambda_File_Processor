@@ -4,10 +4,8 @@ import pickle
 import os
 from boto3.dynamodb.conditions import Key
 import csv
-
-input_bucket = "cse546project2input"
-output_bucket = "cse546project2output"
-
+INPUT_BUCKET_NAME = "cse546project3input"
+OUTPUT_BUCKET_NAME = "cse546project3output"
 session = boto3.Session()
 s3 = session.client('s3')
 
@@ -21,7 +19,7 @@ def open_encoding(filename):
 # Function to process video and extract frames 
 def process_video_object(file_name):
     s3.download_file(
-    Bucket="cse546project2input", Key=file_name, Filename=f"/tmp/{file_name}")
+    Bucket=INPUT_BUCKET_NAME, Key=file_name, Filename=f"/tmp/{file_name}")
     video_file_path =  f"/tmp/{file_name}"
     path = "/tmp/"
     os.system("ffmpeg -i " + str(video_file_path) + " -r 1 " + str(path) + "image-%3d.jpeg")
@@ -63,35 +61,34 @@ def get_data_from_dynamodb(names):
 # Function to create CSV of student info and put in output S3 bucket
 def store_into_s3(file_name, content):
 	file_name= file_name.replace(".mp4",".csv")
-	print("New File:",file_name)
 	with open(f'/tmp/{file_name}', 'w',  encoding='UTF8') as file:
 		csv.writer(file).writerow([content['name'], content["major"], content["year"]])
     
-	s3.upload_file(f'/tmp/{file_name}', output_bucket, file_name)
+	s3.upload_file(f'/tmp/{file_name}', OUTPUT_BUCKET_NAME, file_name)
 
       
 # Handler Function 
 def face_recognition_handler(event, context):	
-	record = event.get("Records")[0]["s3"]
+    print(event)
 
+    record = event.get("Records")[0]["s3"]
     # Check if event has video object name
-	if record.get("bucket") is None or record.get("bucket").get("name") != "cse546project2input":
-		print("Failed")
-		return
-
-	file_name = record['object']['key']
+    if record.get("bucket") is None or record.get("bucket").get("name") != INPUT_BUCKET_NAME:
+        print("Failed")
+        return
+    file_name = record['object']['key']
         
     # testing and debugging
     # print_temp_folder_contents()
 
     # Process Video and store frames in /tmp/ folder
-	process_video_object(file_name)
+    process_video_object(file_name)
 
     # Process the Image, recognize the face and get the name of the student 
-	result = process_image()
+    result = process_image()
 
     # Retrive the student's details from dynamoDB
-	response = get_data_from_dynamodb(result)
+    response = get_data_from_dynamodb(result)
 
     # Store response to output S3 bucket
-	store_into_s3(file_name, response)
+    store_into_s3(file_name, response)

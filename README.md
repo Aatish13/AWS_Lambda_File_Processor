@@ -1,4 +1,4 @@
-# AWS_Lambda_File_Processor
+# Hybrid Cloud
 
 ## Authors
 #### Team -  Zeus
@@ -13,10 +13,10 @@ Aatish Chaudhari
 - He was responsible for creating every resource (S3, Lambda, DynamoDB, IAM roles, IAM users, ECR Image) on AWS, configuring secure access to every resource, and troubleshooting issues related to access and control flow and threads.
 
 Priyal Desai
-- She contributed by writing an uploader.py script to upload a JSON file containing student information to DynamoDB, retrieving videos from an S3 bucket, virtually storing them in /tmp, and extracting four frames using ffmpeg and saving them as images in the same folder for later recognition.
+- She contributed by writing an Projec3.py script to triger a labda event and retrieving output csv from an S3 bucket.
 
 Verik Vekaria
-- By processing a video file in handler function, he contributed three functions that were used to recognize students' faces, retrieve their data from DynamoDB, and upload the data to an S3 bucket.
+- He handld the private cloud component, which involved installing, configuring, and managing OpenStack and virtual machines.
 
 ## Admin User Credentials
 
@@ -24,8 +24,8 @@ Link - https://450187694173.signin.aws.amazon.com/console
 
 ## S3 Bucket Names
 
-Input Bucket - 'cse546project2input'
-output Bucket - 'cse546project2output'
+Input Bucket - 'cse546project3input'
+output Bucket - 'cse546project3output'
 
 ## Lambda Function Name
 
@@ -35,7 +35,7 @@ lambda function - 'face_recognization'
 
 Student Data - 'student'
 
-## Project Report - 'CSE_546_M3_Project_2_Report.pdf'
+## Project Report - 'CSE_546_M3_Project_3_Report.pdf'
 
 
 # Installation 
@@ -65,8 +65,14 @@ Student Data - 'student'
   1. Export student.json data to table
 ## 4. S3
   1. Create two buckets one for input and another for output
-
+## 5. Openstack
+  1. Install devstack in ubuntu.
+  2. Create ubuntu image in openstack.
+  3. Create instance using that ubuntu image. 
+  4. Put Project3.py in instance
 
 # Execution 
   1. From local terminal execute following command to run the workload generator runs 2 test case one with 10 videos and another with 100 videos.
   ~ python3 workload.py
+  2. Run Projecr3.py in open stack instance to monitor S3 and triger lambda event.
+  ~ python3 Project3.py
