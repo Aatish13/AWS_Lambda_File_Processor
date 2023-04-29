@@ -21,33 +21,33 @@ lambda_client = session.client('lambda')
 
 #Function for trigerring the AWS lambda function
 def trigger_lambda(file_name):
-    event = { "Records": [{"s3": {"bucket": {"name": INPUT_BUCKET_NAME},
+    payload = { "Records": [{"s3": {"bucket": {"name": INPUT_BUCKET_NAME},
                                   "object": {"key": file_name}}}]}
     response = lambda_client.invoke(
     FunctionName='face_detection',
     InvocationType='Event',
     LogType='Tail',
     ClientContext='string',
-    Payload=json.dumps(event),
+    Payload=json.dumps(payload),
     )
 
 # Function for monitoring S3 output bucket
 def monitor_S3_output_bucket():
-    stored_file_details = {}
+    retrieved_file_details = {}
     count = 0
     while True:
         contents = s3.list_objects(Bucket=OUTPUT_BUCKET_NAME).get('Contents', [])
         file_details = [[obj['Key'],obj['LastModified']] for obj in contents]
         
         for key in file_details:
-            if stored_file_details.get(key[0])!=key[1]:
-                stored_file_details[key[0]] = key[1]
+            if retrieved_file_details.get(key[0])!=key[1]:
+                retrieved_file_details[key[0]] = key[1]
                 response = s3.get_object(Bucket=OUTPUT_BUCKET_NAME, Key = key[0])
                 data = response['Body'].read()
                 count+=1
                 print("Count:",count," - ",key[0], " ", data.decode().strip())
 
-        time.sleep(15)
+        time.sleep(10)
 
 #Function for monitoring S3 input bucket
 def monitor_S3_input_bucket():
@@ -60,11 +60,11 @@ def monitor_S3_input_bucket():
             if stored_file_details.get(key[0]) != key[1]:
                 stored_file_details[key[0]] = key[1]
                 trigger_lambda(key[0])
-        time.sleep(15)
+        time.sleep(20)
 
+if __name__ == "__main__":
+    input_process = threading.Thread(target=monitor_S3_input_bucket)
+    output_process = threading.Thread(target=monitor_S3_output_bucket)
 
-input_process = threading.Thread(target=monitor_S3_input_bucket)
-output_process = threading.Thread(target=monitor_S3_output_bucket)
-
-input_process.start()
-output_process.start()
+    input_process.start()
+    output_process.start()
