@@ -13,7 +13,7 @@ Aatish Chaudhari
 - He was responsible for creating every resource (S3, Lambda, DynamoDB, IAM roles, IAM users, ECR Image) on AWS, configuring secure access to every resource, and troubleshooting issues related to access and control flow and threads.
 
 Priyal Desai
-- She contributed by writing an Project3.py script to triger a labda event and retrieving output csv from an S3 bucket.
+- She contributed by writing an Project3.py script to trigger a lambda event and retrieving output csv from an S3 bucket.
 
 Verik Vekaria
 - He handld the private cloud component, which involved installing, configuring, and managing OpenStack and virtual machines.
